@@ -1,25 +1,46 @@
 pipeline {
-    agent any
-
-    tools {
-        maven 'Maven-3.9'
-        jdk 'JDK-17'
+    agent {
+        docker {
+            image 'maven:3.9.9-eclipse-temurin-17'
+        }
     }
 
     stages {
-        stage('Build & Test') {
+
+        stage('SCM') {
             steps {
-                sh 'mvn clean test'
+                echo 'Checking out source code from Git'
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the application'
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running unit tests'
+                sh 'mvn test'
+            }
+        }
+
+        stage('Build Completed') {
+            steps {
+                echo '✅ Build and Test stages completed successfully'
             }
         }
     }
 
     post {
-        success {
-            echo '✅ Build and tests successful'
-        }
         failure {
-            echo '❌ Build or tests failed'
+            echo '❌ Pipeline failed'
+        }
+        success {
+            echo '🎉 Pipeline executed successfully'
         }
     }
 }
