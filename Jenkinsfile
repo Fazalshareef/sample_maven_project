@@ -52,7 +52,7 @@ pipeline {
             slackSend(
                 channel: '#jenkins-notifications',
                 color: 'good',
-                message: "✅ SUCCESS: ${JOB_NAME} #${BUILD_NUMBER} \n${BUILD_URL}"
+                message: "✅ SUCCESS: ${JOB_NAME} #${BUILD_NUMBER} \n${BUILD_URL}",
     		tokenCredentialId: 'slack-webhook'
             )
         }
