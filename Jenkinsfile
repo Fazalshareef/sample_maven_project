@@ -39,21 +39,20 @@ pipeline {
             emailext(
                 subject: "SUCCESS: Jenkins Build #${BUILD_NUMBER}",
                 body: """
-                Build Successful ✅
-                
-                Job: ${JOB_NAME}
-                Build Number: ${BUILD_NUMBER}
-                URL: ${BUILD_URL}
-                """,
+Build Successful ✅
+
+Job: ${JOB_NAME}
+Build Number: ${BUILD_NUMBER}
+URL: ${BUILD_URL}
+""",
                 to: "mohammedfazalshareef@gmail.com"
             )
 
-            // Slack Notification
+            // ✅ Slack Notification (FIXED)
             slackSend(
-                webhookUrl: credentials('slack-webhook'),
                 channel: '#jenkins-notifications',
                 color: 'good',
-                message: "✅ SUCCESS: ${JOB_NAME} #${BUILD_NUMBER} \n${BUILD_URL}",
+                message: "✅ SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}\n${BUILD_URL}"
             )
         }
 
@@ -62,12 +61,12 @@ pipeline {
             emailext(
                 subject: "FAILED: Jenkins Build #${BUILD_NUMBER}",
                 body: """
-                Build Failed ❌
-                
-                Job: ${JOB_NAME}
-                Build Number: ${BUILD_NUMBER}
-                URL: ${BUILD_URL}
-                """,
+Build Failed ❌
+
+Job: ${JOB_NAME}
+Build Number: ${BUILD_NUMBER}
+URL: ${BUILD_URL}
+""",
                 to: "dev-team@example.com"
             )
 
@@ -75,7 +74,7 @@ pipeline {
             slackSend(
                 channel: '#build-alerts',
                 color: 'danger',
-                message: "❌ FAILED: ${JOB_NAME} #${BUILD_NUMBER} \n${BUILD_URL}"
+                message: "❌ FAILED: ${JOB_NAME} #${BUILD_NUMBER}\n${BUILD_URL}"
             )
         }
     }
